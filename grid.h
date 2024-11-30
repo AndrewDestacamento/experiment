@@ -1,36 +1,35 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include "defaults.h"
 #include "games.h"
 
 class Grid {
 private:
 	friend class TicTacToe;
 	friend class Ultimate;
-	unsigned char rows, columns;
+	unsigned int total_rows = 0, total_columns = 0;
 	bool ultimate = false;
 
 public:
 	std::vector<sf::RectangleShape> grid_squares;
-	void calculate_grid(sf::Vector2f size) {
+	void calculate_grid() {
 		if (ultimate) {
 			//
 		}
-		float x_pos, y_pos;
-		sf::Vector2f square_size(size.x / columns, size.y / columns);
-		float outline_size = (size.x + size.y) * 0.002381;
 
 		sf::RectangleShape base_square;
 		base_square.setFillColor(sf::Color::Transparent);
 		base_square.setOutlineColor(sf::Color::White);
-		base_square.setOutlineThickness(outline_size);
-		base_square.setSize(square_size);
+		base_square.setOutlineThickness((float)(BASE_WINDOW_WIDTH + BASE_WINDOW_HEIGHT) / 420.f);
+		base_square.setSize(sf::Vector2f((float)BASE_WINDOW_WIDTH / total_columns, (float)BASE_WINDOW_HEIGHT / total_rows));
 
-		for (int row = 0; row < rows; row++) {
-			sf::Vector2f square_position;
-			square_position.y = square_size.y * row;
-			for (int column = 0; column < columns; column++) {
-				square_position.x = square_size.x * column;
+		sf::Vector2f square_position;
+		for (int current_row = 0; current_row < total_rows; current_row++) {
+			square_position.y = base_square.getSize().y * current_row;
+
+			for (int current_column = 0; current_column < total_columns; current_column++) {
+				square_position.x = base_square.getSize().x * current_column;
 
 				sf::RectangleShape modified_square = base_square;
 				modified_square.setPosition(square_position);

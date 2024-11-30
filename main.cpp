@@ -1,23 +1,23 @@
-#include <string>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include "defaults.h"
 #include "games.h"
 #include "grid.h"
 #include "pieces.h"
-#include <iostream>
+#include "screens.h"
 
-const unsigned short int BASE_WINDOW_LENGTH = 800;
-const std::string BASE_TITLE = "Tic-Tac-Toe";
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(BASE_WINDOW_LENGTH, BASE_WINDOW_LENGTH), BASE_TITLE);
-    window.setFramerateLimit(30);
+    sf::RenderWindow window(sf::VideoMode(BASE_WINDOW_WIDTH, BASE_WINDOW_HEIGHT), BASE_TITLE);
+    window.setFramerateLimit(FRAMERATE_LIMIT);
+
+    Screen current_screen = Screen::Title;
 
     // Game loop
     while (window.isOpen())
     {
-        unsigned short int current_width = BASE_WINDOW_LENGTH, current_height = BASE_WINDOW_LENGTH;
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -26,9 +26,8 @@ int main()
                 window.close();
                 break;
             case sf::Event::Resized:
-                current_width = event.size.width;
-                current_height = event.size.height;
-                if (current_height < 232) {
+                // Prevent window from being too thin
+                if (event.size.height < 232) {
                     window.setSize(sf::Vector2u(window.getSize().x, 232));
                 }
                 break;
@@ -39,6 +38,7 @@ int main()
                 // Add stuff
                 break;
             case sf::Event::MouseMoved:
+                // Add stuff
                 break;
             case sf::Event::MouseEntered:
                 // Add stuff
@@ -54,6 +54,34 @@ int main()
         window.clear(sf::Color::Black);
 
         // Draw stuff
+        switch (current_screen) {
+        case Title:
+            title(window);
+            break;
+        case GlobalSettings:
+            // Nothing to do
+            break;
+        case Selection:
+            // Nothing to do
+            break;
+        case TTTGame:
+            tictactoe(window);
+            break;
+        case TTTSettings:
+            // Nothing to do
+            break;
+        case UltimateGame:
+            // Nothing to do
+            break;
+        case UltimateSettings:
+            // Nothing to do
+            break;
+        default:
+            // Just reset to title
+            current_screen = Screen::Title;
+            break;
+        }
+
         window.display();
     }
 

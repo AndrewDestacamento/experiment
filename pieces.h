@@ -1,7 +1,9 @@
 #pragma once
+#include <cmath>
 #include <SFML/Graphics.hpp>
+#include "defaults.h"
 
-const float OUTLINE_RATIO = 0.381966;
+const float OUTLINE_RATIO = 1.5 - std::sqrtf(1.25); // Golden ratio for outline
 
 sf::CircleShape nought(sf::Vector2f position, float radius, sf::Color color = sf::Color(15,80,255,255)) {
 	float outline_radius = radius * OUTLINE_RATIO;
