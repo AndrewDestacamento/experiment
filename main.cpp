@@ -10,10 +10,12 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(BASE_WINDOW_WIDTH, BASE_WINDOW_HEIGHT), BASE_TITLE);
+    sf::RenderWindow window(sf::VideoMode(BASE_WINDOW_WIDTH, BASE_WINDOW_HEIGHT), BASE_TITLE, sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(FRAMERATE_LIMIT);
 
-    Screen current_screen = Screen::Title;
+    Screen current_screen = Screen::Selection;
+
+    TicTacToe ttt_game(window);
 
     // Game loop
     while (window.isOpen())
@@ -25,12 +27,15 @@ int main()
             case sf::Event::Closed:
                 window.close();
                 break;
+            /* 
+            * Disable resizing
             case sf::Event::Resized:
                 // Prevent window from being too thin
                 if (event.size.height < 232) {
                     window.setSize(sf::Vector2u(window.getSize().x, 232));
                 }
                 break;
+            */
             case sf::Event::MouseButtonPressed:
                 // Add stuff
                 break;
@@ -62,10 +67,11 @@ int main()
             // Nothing to do
             break;
         case Selection:
-            // Nothing to do
+            ttt_game.game_start();
+            current_screen = TTTGame;
             break;
         case TTTGame:
-            tictactoe(window);
+            ttt_game.draw_board();
             break;
         case TTTSettings:
             // Nothing to do

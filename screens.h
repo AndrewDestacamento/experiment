@@ -61,12 +61,3 @@ void title(sf::RenderWindow &window) {
 	window.draw(settings_button);
 }
 void selection();
-
-void tictactoe(sf::RenderWindow &window) {
-	TicTacToe example_grid;
-	example_grid.ttt_grid.calculate_grid();
-	for (sf::RectangleShape square : example_grid.ttt_grid.grid_squares) {
-		window.draw(square);
-	}
-
-}

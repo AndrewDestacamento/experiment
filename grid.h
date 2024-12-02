@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <tuple>
 #include "defaults.h"
 #include "games.h"
+#include "pieces.h"
 
 class Grid {
 private:
@@ -12,8 +14,8 @@ private:
 	bool ultimate = false;
 
 public:
-	std::vector<sf::RectangleShape> grid_squares;
-	void calculate_grid() {
+	std::vector<std::tuple<sf::RectangleShape, Nought, Cross>> grid_squares;
+	void generate_grid() {
 		if (ultimate) {
 			//
 		}
@@ -33,7 +35,7 @@ public:
 
 				sf::RectangleShape modified_square = base_square;
 				modified_square.setPosition(square_position);
-				grid_squares.push_back(modified_square);
+				grid_squares.push_back(std::make_tuple(modified_square, Nought(square_position, base_square.getSize().x), Cross(square_position, base_square.getSize().x) ));
 			}
 		}
 	}
